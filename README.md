@@ -4,6 +4,10 @@ A mobile habit tracker where **your streak grows a tree**. Finish every habit in
 
 **[▶ Try the live demo](https://jack1071-habit-tracker.expo.app)** (works best at phone size)
 
+**📱 On your phone:** install [Expo Go](https://expo.dev/go), then scan this QR code with your camera (iPhone) or from inside Expo Go (Android).
+
+<img src="docs/expo-go-qr.png" width="160" alt="QR code to open the app in Expo Go" />
+
 <p>
   <img src="docs/screenshots/today.jpg" width="200" alt="Today screen with habits and progress" />
   <img src="docs/screenshots/tree.jpg" width="200" alt="Your Tree screen showing a tree grown from a 10-day streak" />
