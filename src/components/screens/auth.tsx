@@ -30,7 +30,7 @@ export function AuthScreen({ startMode = 'signUp', hasLocalData = false, onSkip,
     if (!supabase || !canSubmit) return;
     tapBuzz();
     setBusy(true);
-    setError(null);
+    setError(null); // also cleared on each new attempt, so old messages never linger
     setNotice(null);
     const creds = { email: email.trim().toLowerCase(), password };
     const { data, error: err } = signingUp
@@ -73,7 +73,10 @@ export function AuthScreen({ startMode = 'signUp', hasLocalData = false, onSkip,
           <Text style={styles.label}>Email</Text>
           <TextInput
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(t) => {
+              setEmail(t);
+              setError(null); // clear old errors as soon as they start fixing things
+            }}
             placeholder="you@example.com"
             placeholderTextColor={C.muted}
             style={styles.input}
@@ -86,7 +89,10 @@ export function AuthScreen({ startMode = 'signUp', hasLocalData = false, onSkip,
           <Text style={styles.label}>Password</Text>
           <TextInput
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(t) => {
+              setPassword(t);
+              setError(null);
+            }}
             placeholder={signingUp ? 'At least 6 characters' : 'Your password'}
             placeholderTextColor={C.muted}
             style={styles.input}

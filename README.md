@@ -25,7 +25,8 @@ It gets its own icon and opens full screen like a normal app. Your habits are sa
 - **3-day kickstart challenge** for new users, with a trophy at the end.
 - **History.** Current and best streaks, a 7-day grid, and 30-day consistency bars for each habit.
 - **Manage habits.** Add your own with a custom icon and daily target, or delete them.
-- **Saves on the device**, so your habits are still there when you reopen the app.
+- **Accounts and cloud sync.** Sign up with email to back up your habits and use them on any device. Changes upload a moment after you make them. Or tap **Try without an account** and everything stays on your device.
+- **Private by design.** Row Level Security in the database means each account can only ever read or change its own data.
 
 ## How it's designed
 
@@ -36,7 +37,7 @@ I planned the app with a 5-step framework before building it:
 | **Core function** | Track a habit |
 | **Core loop** (action → reward in under 30 seconds) | Tap a habit → buzz, bounce, confetti |
 | **Accessory features** (only what supports the loop) | History, streaks, consistency bars, counted habits |
-| **Surface area** (5–7 screens max) | 5 screens: Welcome, Today, Your Tree, History, Manage |
+| **Surface area** (5–7 screens max) | 6 screens: Sign in, Welcome, Today, Your Tree, History, Manage |
 | **Retention hook** | 3-day kickstart challenge, and a tree you don't want to lose |
 
 ## Built with
@@ -46,7 +47,8 @@ I planned the app with a 5-step framework before building it:
 - `react-native-svg` for the tree and lumberjack drawings
 - React Native `Animated` for the grow, chop and confetti animations
 - `expo-haptics` for vibration feedback
-- AsyncStorage for saving data on the device
+- [Supabase](https://supabase.com) for sign-in (email + password) and a Postgres database with Row Level Security
+- AsyncStorage for saving data on the device (local-first: the app reads from the device instantly and syncs in the background)
 - Published with EAS Update (phone) and EAS Hosting (web)
 
 Built with [Claude Code](https://claude.com/claude-code) as an AI pair programmer while following a course on building mobile apps.
@@ -57,11 +59,12 @@ Built with [Claude Code](https://claude.com/claude-code) as an AI pair programme
    ```bash
    npm install
    ```
-2. Start the app:
+2. *(Optional, for accounts)* Create a free [Supabase](https://supabase.com) project, run [`supabase/schema.sql`](supabase/schema.sql) in its SQL Editor, then copy `.env.example` to `.env` and fill in your project URL and publishable key. Without this, the app runs in guest mode.
+3. Start the app:
    ```bash
    npx expo start
    ```
-3. Scan the QR code with the **Expo Go** app on your phone, or press `w` to open it in your browser.
+4. Scan the QR code with the **Expo Go** app on your phone, or press `w` to open it in your browser.
 
 If your phone can't connect over Wi-Fi, use `npx expo start --tunnel` instead.
 
@@ -73,12 +76,17 @@ src/
     _layout.tsx         Loads the font and sets up the app
     index.tsx           Main screen: app state, tabs, celebrations
   components/
-    screens/            Onboarding, Today, Your Tree, History, Manage
+    screens/            Sign in, Onboarding, Today, Your Tree, History, Manage
     tree-art.tsx        SVG drawings of the tree stages, stump and lumberjack
     celebration.tsx     Confetti animation
   lib/
     habits.ts           Data types, saving, streak and consistency maths
+    supabase.ts         Supabase connection
+    cloud.ts            Upload / download habits for a signed-in user
+    use-account.ts      Tracks who is signed in
     ui.ts               Colors, fonts and haptics
+supabase/
+  schema.sql            Database table and Row Level Security rules
 ```
 
 ## License
