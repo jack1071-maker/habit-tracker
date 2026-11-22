@@ -197,7 +197,8 @@ function TabButton({ label, icon, on, onPress }: { label: string; icon: string; 
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: C.bg },
+  // On a phone this fills the screen. On a computer it stays phone-width and centered.
+  screen: { flex: 1, width: '100%', maxWidth: 520, alignSelf: 'center', backgroundColor: C.bg },
   center: { alignItems: 'center', justifyContent: 'center' },
   body: { flex: 1 },
   tabBar: {
