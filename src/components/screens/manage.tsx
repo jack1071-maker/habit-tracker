@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   stepValue: { fontSize: 17, fontWeight: '700', color: C.text, minWidth: 90, textAlign: 'center' },
   button: { backgroundColor: C.accent, borderRadius: R.sm, paddingVertical: 14, alignItems: 'center', marginTop: 4 },
   buttonOff: { opacity: 0.4 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
+  buttonText: { color: C.onAccent, fontSize: 16, fontWeight: '700' },
   habitRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   habitName: { fontSize: 16, fontWeight: '700', color: C.text },
   habitMeta: { fontSize: 13, color: C.muted },

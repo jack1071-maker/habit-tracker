@@ -151,7 +151,7 @@ export function AuthScreen({ startMode = 'signUp', hasLocalData = false, onSkip,
           {notice && <Text style={styles.notice}>{notice}</Text>}
 
           <Pressable style={[styles.button, !canSubmit && styles.off]} disabled={!canSubmit} onPress={submit}>
-            {busy ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>{buttonLabel}</Text>}
+            {busy ? <ActivityIndicator color={C.onAccent} /> : <Text style={styles.buttonText}>{buttonLabel}</Text>}
           </Pressable>
 
           {mode === 'signIn' && (
@@ -252,7 +252,7 @@ export function NewPasswordScreen({ onDone }: { onDone: () => void }) {
           {mismatch && <Text style={styles.error}>The two passwords don’t match yet.</Text>}
           {error && <Text style={styles.error}>{error}</Text>}
           <Pressable style={[styles.button, !canSave && styles.off]} disabled={!canSave} onPress={save}>
-            {busy ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Save new password</Text>}
+            {busy ? <ActivityIndicator color={C.onAccent} /> : <Text style={styles.buttonText}>Save new password</Text>}
           </Pressable>
         </View>
       )}
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
   notice: { color: C.text, fontSize: 14, marginTop: 4, lineHeight: 20 },
   button: { backgroundColor: C.accent, borderRadius: R.sm, paddingVertical: 14, alignItems: 'center', marginTop: 8, minHeight: 48, justifyContent: 'center' },
   off: { opacity: 0.4 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
+  buttonText: { color: C.onAccent, fontSize: 16, fontWeight: '700' },
   link: { color: C.accent, textAlign: 'center', fontWeight: '600', fontSize: 15 },
   smallLink: { color: C.muted, textAlign: 'center', fontSize: 14, marginTop: 6, textDecorationLine: 'underline' },
   skip: { alignItems: 'center', paddingVertical: 10 },

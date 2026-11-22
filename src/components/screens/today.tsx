@@ -187,9 +187,9 @@ const styles = StyleSheet.create({
   },
   dotDone: { backgroundColor: C.accent },
   dotText: { fontWeight: '700', color: C.muted },
-  dotTextDone: { color: '#fff' },
+  dotTextDone: { color: C.onAccent },
   smallButton: { alignSelf: 'flex-start', backgroundColor: C.accent, borderRadius: R.sm, paddingVertical: 8, paddingHorizontal: 14 },
-  smallButtonText: { color: '#fff', fontWeight: '700' },
+  smallButtonText: { color: C.onAccent, fontWeight: '700' },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -215,6 +215,6 @@ const styles = StyleSheet.create({
   },
   checkDone: { backgroundColor: C.green, borderColor: C.green },
   checkText: { fontSize: 20, fontWeight: '700', color: C.muted },
-  checkTextDone: { color: '#fff' },
+  checkTextDone: { color: C.onAccent },
   hint: { textAlign: 'center', color: C.muted, fontSize: 13, marginTop: 8 },
 });

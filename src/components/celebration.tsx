@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   piece: { position: 'absolute', top: 0 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
   card: {
-    backgroundColor: '#4A3B9C',
+    backgroundColor: '#141414',
     borderWidth: 2,
     borderColor: C.accent,
     maxWidth: 340,
@@ -77,5 +77,5 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   title: { fontSize: 30, lineHeight: 38, fontFamily: HEADLINE, textTransform: 'uppercase', color: C.text, textAlign: 'center' },
-  subtitle: { fontSize: 15, color: '#E4DDFF', marginTop: 6, textAlign: 'center' },
+  subtitle: { fontSize: 15, color: '#D4D4D4', marginTop: 6, textAlign: 'center' },
 });

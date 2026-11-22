@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" fill="#231B47"/>
+  <rect width="1024" height="1024" fill="#0A0A0A"/>
   <!-- stars and moon -->
   <circle cx="780" cy="210" r="62" fill="#F4EBC9"/>
-  <circle cx="200" cy="180" r="9" fill="#E8E2FF" opacity="0.8"/>
-  <circle cx="330" cy="120" r="6" fill="#E8E2FF" opacity="0.8"/>
-  <circle cx="610" cy="140" r="7" fill="#E8E2FF" opacity="0.8"/>
-  <circle cx="150" cy="380" r="6" fill="#E8E2FF" opacity="0.8"/>
-  <circle cx="880" cy="420" r="7" fill="#E8E2FF" opacity="0.8"/>
+  <circle cx="200" cy="180" r="9" fill="#E5E5E5" opacity="0.8"/>
+  <circle cx="330" cy="120" r="6" fill="#E5E5E5" opacity="0.8"/>
+  <circle cx="610" cy="140" r="7" fill="#E5E5E5" opacity="0.8"/>
+  <circle cx="150" cy="380" r="6" fill="#E5E5E5" opacity="0.8"/>
+  <circle cx="880" cy="420" r="7" fill="#E5E5E5" opacity="0.8"/>
   <!-- ground -->
-  <rect x="0" y="830" width="1024" height="194" fill="#2F6B4F"/>
+  <rect x="0" y="830" width="1024" height="194" fill="#3F6212"/>
   <ellipse cx="512" cy="838" rx="190" ry="40" fill="#6B4630"/>
   <!-- trunk -->
   <path d="M 452 840 L 482 560 L 542 560 L 572 840 Z" fill="#7A4E2D"/>

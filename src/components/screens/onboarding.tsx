@@ -95,5 +95,5 @@ const styles = StyleSheet.create({
   chipSub: { fontSize: 12, color: C.muted, marginTop: 2 },
   button: { backgroundColor: C.accent, borderRadius: R.md, paddingVertical: 16, alignItems: 'center', marginTop: 10 },
   buttonOff: { opacity: 0.4 },
-  buttonText: { color: '#fff', fontSize: 17, fontWeight: '700' },
+  buttonText: { color: C.onAccent, fontSize: 17, fontWeight: '700' },
 });

@@ -11,7 +11,7 @@ const TAGS = [
   '<meta name="mobile-web-app-capable" content="yes"/>',
   '<meta name="apple-mobile-web-app-title" content="Habits"/>',
   '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>',
-  '<meta name="theme-color" content="#231B47"/>',
+  '<meta name="theme-color" content="#0A0A0A"/>',
   '<meta name="description" content="Track your habits and grow a tree with your streak."/>',
   '<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>',
   '<link rel="manifest" href="/manifest.json"/>',
