@@ -23,6 +23,8 @@ export type AppState = {
   challengeStart: string | null;
   /** The streak the Your Tree page last showed, so it knows when to grow or chop. */
   tree: { seenStreak: number; seenOn: string };
+  /** True once someone picks "Try without an account" (data stays on this device only). */
+  guest: boolean;
 };
 
 export const EMPTY_STATE: AppState = {
@@ -31,6 +33,7 @@ export const EMPTY_STATE: AppState = {
   log: {},
   challengeStart: null,
   tree: { seenStreak: 0, seenOn: '' },
+  guest: false,
 };
 
 export const CHALLENGE_DAYS = 3;

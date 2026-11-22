@@ -4,15 +4,80 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 import { AppState, EMOJI_CHOICES } from '@/lib/habits';
 import { C, HEADLINE, R, tapBuzz } from '@/lib/ui';
 
+type Account = {
+  /** False when the app was built without Supabase keys. */
+  enabled: boolean;
+  email: string | null;
+  sync: 'idle' | 'syncing' | 'synced' | 'error';
+  onSignUp: () => void;
+  onSignIn: () => void;
+  onSignOut: () => void;
+};
+
 type Props = {
   state: AppState;
   onAdd: (name: string, emoji: string, target: number) => void;
   onDelete: (id: string) => void;
   onSimulateChallenge: () => void;
   onReset: () => void;
+  account: Account;
 };
 
-export function Manage({ state, onAdd, onDelete, onSimulateChallenge, onReset }: Props) {
+const SYNC_LABEL: Record<Account['sync'], string> = {
+  idle: '',
+  syncing: '⏳ Saving…',
+  synced: '✅ Backed up',
+  error: '⚠️ Not backed up yet (offline?). It will retry on your next change.',
+};
+
+function AccountCard({ account }: { account: Account }) {
+  const [confirmOut, setConfirmOut] = useState(false);
+  if (!account.enabled) return null;
+
+  if (!account.email) {
+    return (
+      <View style={[styles.card, styles.accountGuest]}>
+        <Text style={styles.accountTitle}>☁️ Back up your habits</Text>
+        <Text style={styles.muted}>
+          Right now your habits are only saved on this device. Create a free account to keep them safe and use them on
+          other devices.
+        </Text>
+        <Pressable style={styles.button} onPress={account.onSignUp}>
+          <Text style={styles.buttonText}>Create account</Text>
+        </Pressable>
+        <Pressable onPress={account.onSignIn}>
+          <Text style={styles.link}>I already have an account</Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.card}>
+      <Text style={styles.label}>Account</Text>
+      <Text style={styles.habitName} numberOfLines={1}>
+        {account.email}
+      </Text>
+      {account.sync !== 'idle' && <Text style={styles.muted}>{SYNC_LABEL[account.sync]}</Text>}
+      <Pressable
+        style={[styles.devBtn, confirmOut && styles.deleteBtnConfirm]}
+        onPress={() => {
+          if (confirmOut) {
+            setConfirmOut(false);
+            account.onSignOut();
+          } else {
+            setConfirmOut(true);
+          }
+        }}>
+        <Text style={[styles.devBtnText, confirmOut && styles.deleteTextConfirm]}>
+          {confirmOut ? 'Tap again to sign out' : 'Sign out'}
+        </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+export function Manage({ state, onAdd, onDelete, onSimulateChallenge, onReset, account }: Props) {
   const [name, setName] = useState('');
   const [emoji, setEmoji] = useState(EMOJI_CHOICES[0]);
   const [counted, setCounted] = useState(false);
@@ -33,6 +98,8 @@ export function Manage({ state, onAdd, onDelete, onSimulateChallenge, onReset }:
   return (
     <ScrollView contentContainerStyle={styles.wrap} keyboardShouldPersistTaps="handled">
       <Text style={styles.h1}>Manage habits</Text>
+
+      <AccountCard account={account} />
 
       <View style={styles.card}>
         <Text style={styles.label}>New habit</Text>
@@ -195,4 +262,7 @@ const styles = StyleSheet.create({
   muted: { color: C.muted, fontSize: 14 },
   devBtn: { borderWidth: 1, borderColor: C.line, borderRadius: R.sm, paddingVertical: 12, alignItems: 'center' },
   devBtnText: { color: C.text, fontWeight: '600' },
+  accountGuest: { borderWidth: 1, borderColor: C.accent },
+  accountTitle: { fontSize: 17, fontWeight: '700', color: C.text },
+  link: { color: C.accent, textAlign: 'center', fontWeight: '600', paddingVertical: 4 },
 });
