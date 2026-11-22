@@ -1,0 +1,13 @@
+{
+  "name": "Habit Tracker",
+  "short_name": "Habits",
+  "description": "Track your habits and grow a tree with your streak.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#231B47",
+  "theme_color": "#231B47",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#231B47"/>
+  <!-- stars and moon -->
+  <circle cx="780" cy="210" r="62" fill="#F4EBC9"/>
+  <circle cx="200" cy="180" r="9" fill="#E8E2FF" opacity="0.8"/>
+  <circle cx="330" cy="120" r="6" fill="#E8E2FF" opacity="0.8"/>
+  <circle cx="610" cy="140" r="7" fill="#E8E2FF" opacity="0.8"/>
+  <circle cx="150" cy="380" r="6" fill="#E8E2FF" opacity="0.8"/>
+  <circle cx="880" cy="420" r="7" fill="#E8E2FF" opacity="0.8"/>
+  <!-- ground -->
+  <rect x="0" y="830" width="1024" height="194" fill="#2F6B4F"/>
+  <ellipse cx="512" cy="838" rx="190" ry="40" fill="#6B4630"/>
+  <!-- trunk -->
+  <path d="M 452 840 L 482 560 L 542 560 L 572 840 Z" fill="#7A4E2D"/>
+  <line x1="505" y1="815" x2="508" y2="600" stroke="#5C3A21" stroke-width="10"/>
+  <!-- leaves -->
+  <circle cx="352" cy="540" r="160" fill="#38996A"/>
+  <circle cx="672" cy="540" r="160" fill="#38996A"/>
+  <circle cx="512" cy="430" r="230" fill="#4FBF7F"/>
+  <circle cx="370" cy="500" r="140" fill="#4FBF7F"/>
+  <circle cx="654" cy="500" r="140" fill="#4FBF7F"/>
+  <circle cx="440" cy="350" r="80" fill="#7ADDA2" opacity="0.8"/>
+</svg>
