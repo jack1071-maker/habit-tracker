@@ -56,6 +56,9 @@ export function friendlyAuthError(message: string): string {
   if (m.includes('password') && (m.includes('at least') || m.includes('short'))) return 'Your password needs to be at least 6 characters.';
   if (m.includes('email') && m.includes('invalid')) return 'That doesn’t look like a valid email address.';
   if (m.includes('not confirmed')) return 'Please confirm your email first. Check your inbox for a link.';
+  // Supabase's free email service only sends a few sign-up emails per hour for the whole app.
+  if (m.includes('email rate limit'))
+    return 'Lots of people are signing up right now, so we can’t send your confirmation email yet. Tap “Try without an account” to start now, then create your account later from the Manage tab.';
   if (m.includes('rate limit') || m.includes('too many')) return 'Too many tries. Wait a minute and try again.';
   if (m.includes('network') || m.includes('fetch')) return 'Can’t reach the server. Check your internet connection.';
   return message;
