@@ -27,6 +27,7 @@ It gets its own icon and opens full screen like a normal app. Your habits are sa
 - **Manage habits.** Add your own with a custom icon and daily target, or delete them.
 - **Accounts and cloud sync.** Sign up with email to back up your habits and use them on any device. Changes upload a moment after you make them. Or tap **Try without an account** and everything stays on your device.
 - **Private by design.** Row Level Security in the database means each account can only ever read or change its own data.
+- **Account controls.** Forgot password (reset by email), and delete your account and all its data from inside the app.
 
 ## How it's designed
 
@@ -67,6 +68,14 @@ Built with [Claude Code](https://claude.com/claude-code) as an AI pair programme
 4. Scan the QR code with the **Expo Go** app on your phone, or press `w` to open it in your browser.
 
 If your phone can't connect over Wi-Fi, use `npx expo start --tunnel` instead.
+
+## How it works
+
+See **[docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md)** for a plain-English tour of the code: data flow, streak maths, syncing, and security.
+
+## Privacy
+
+The app's privacy policy is at [/privacy](https://jack1071-habit-tracker.expo.app/privacy). People can delete their account and all their data any time from **Manage → Delete my account**.
 
 ## Project structure
 

@@ -12,6 +12,9 @@ const key = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 /** False if the app was built without Supabase keys. Accounts are then hidden and everyone is a guest. */
 export const cloudEnabled = Boolean(url && key);
 
+/** The live web app. Password-reset emails link here (it's also the Supabase "Site URL"). */
+export const APP_URL = 'https://jack1071-habit-tracker.expo.app';
+
 // While the web version is pre-rendered on the build machine there is no browser storage,
 // so only use AsyncStorage when the app is actually running.
 const isServer = Platform.OS === 'web' && typeof window === 'undefined';
@@ -22,7 +25,8 @@ export const supabase: SupabaseClient | null = cloudEnabled
         storage: isServer ? undefined : AsyncStorage,
         autoRefreshToken: true,
         persistSession: !isServer,
-        detectSessionInUrl: false,
+        // On the web, read the sign-in token from a password-reset link when the page opens.
+        detectSessionInUrl: Platform.OS === 'web' && !isServer,
       },
     })
   : null;

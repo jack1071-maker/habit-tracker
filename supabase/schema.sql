@@ -43,6 +43,26 @@ create policy "Users can delete their own state"
 grant select, insert, update, delete on public.user_state to authenticated;
 revoke all on public.user_state from anon;
 
+-- "Delete my account": lets a signed-in user permanently delete THEIR OWN account.
+-- Deleting the account also deletes their user_state row (on delete cascade above).
+-- It runs with elevated rights (security definer) because normal users can't touch auth.users,
+-- but it only ever deletes the account of whoever is calling it (auth.uid()).
+create or replace function public.delete_my_account()
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  if auth.uid() is null then
+    raise exception 'Not signed in';
+  end if;
+  delete from auth.users where id = auth.uid();
+end;
+$$;
+revoke all on function public.delete_my_account() from public, anon;
+grant execute on function public.delete_my_account() to authenticated;
+
 -- Stop one account from storing a huge amount of data (about 200 KB is years of habits).
 alter table public.user_state drop constraint if exists user_state_size_limit;
 alter table public.user_state

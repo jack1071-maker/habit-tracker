@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -12,6 +13,8 @@ type Account = {
   onSignUp: () => void;
   onSignIn: () => void;
   onSignOut: () => void;
+  /** Resolves to an error message, or null if the account was deleted. */
+  onDeleteAccount: () => Promise<string | null>;
 };
 
 type Props = {
@@ -32,7 +35,20 @@ const SYNC_LABEL: Record<Account['sync'], string> = {
 
 function AccountCard({ account }: { account: Account }) {
   const [confirmOut, setConfirmOut] = useState(false);
+  const [deleteStep, setDeleteStep] = useState<0 | 1 | 2>(0); // 0 = hidden, 1 = warning, 2 = deleting
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   if (!account.enabled) return null;
+
+  const confirmDelete = async () => {
+    setDeleteStep(2);
+    setDeleteError(null);
+    const err = await account.onDeleteAccount();
+    if (err) {
+      setDeleteError(err);
+      setDeleteStep(1);
+    }
+    // On success the app signs out and this screen goes away.
+  };
 
   if (!account.email) {
     return (
@@ -73,6 +89,36 @@ function AccountCard({ account }: { account: Account }) {
           {confirmOut ? 'Tap again to sign out' : 'Sign out'}
         </Text>
       </Pressable>
+
+      {deleteStep === 0 ? (
+        <Pressable onPress={() => setDeleteStep(1)}>
+          <Text style={styles.dangerLink}>Delete my account</Text>
+        </Pressable>
+      ) : (
+        <View style={styles.dangerBox}>
+          <Text style={styles.dangerTitle}>Delete your account?</Text>
+          <Text style={styles.muted}>
+            This permanently deletes your account and all your saved habits, streaks and tree from our servers. It can’t
+            be undone.
+          </Text>
+          {deleteError && <Text style={styles.errorText}>{deleteError}</Text>}
+          <Pressable
+            style={[styles.devBtn, styles.deleteBtnConfirm, deleteStep === 2 && styles.buttonOff]}
+            disabled={deleteStep === 2}
+            onPress={confirmDelete}>
+            <Text style={[styles.devBtnText, styles.deleteTextConfirm]}>
+              {deleteStep === 2 ? 'Deleting…' : 'Yes, delete everything'}
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setDeleteStep(0);
+              setDeleteError(null);
+            }}>
+            <Text style={styles.link}>Cancel</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
@@ -199,6 +245,10 @@ export function Manage({ state, onAdd, onDelete, onSimulateChallenge, onReset, a
           </Text>
         </Pressable>
       </View>
+
+      <Pressable onPress={() => router.push('/privacy')}>
+        <Text style={styles.footerLink}>Privacy policy</Text>
+      </Pressable>
     </ScrollView>
   );
 }
@@ -265,4 +315,9 @@ const styles = StyleSheet.create({
   accountGuest: { borderWidth: 1, borderColor: C.accent },
   accountTitle: { fontSize: 17, fontWeight: '700', color: C.text },
   link: { color: C.accent, textAlign: 'center', fontWeight: '600', paddingVertical: 4 },
+  dangerLink: { color: '#FF8A8A', textAlign: 'center', fontSize: 14, paddingVertical: 4 },
+  dangerBox: { borderWidth: 1, borderColor: '#C0392B', borderRadius: R.sm, padding: 12, gap: 8 },
+  dangerTitle: { fontSize: 16, fontWeight: '700', color: C.text },
+  errorText: { color: '#FF8A8A', fontSize: 14 },
+  footerLink: { color: C.muted, textAlign: 'center', fontSize: 13, textDecorationLine: 'underline', paddingVertical: 6 },
 });

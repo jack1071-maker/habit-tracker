@@ -1,12 +1,16 @@
 import type { User } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { supabase } from '@/lib/supabase';
 
-/** The signed-in user (or null), and whether the app has finished checking. */
-export function useAccount(): { user: User | null; ready: boolean } {
+/**
+ * The signed-in user (or null), whether the app has finished checking, and whether
+ * someone just opened a password-reset link and needs to choose a new password.
+ */
+export function useAccount(): { user: User | null; ready: boolean; recovering: boolean; doneRecovering: () => void } {
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(!supabase);
+  const [recovering, setRecovering] = useState(false);
 
   useEffect(() => {
     if (!supabase) return;
@@ -17,10 +21,11 @@ export function useAccount(): { user: User | null; ready: boolean } {
       setUser(data.session?.user ?? null);
       setReady(true);
     });
-    // ...and keep listening for sign-ins and sign-outs.
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    // ...and keep listening for sign-ins, sign-outs and password-reset links.
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
       setReady(true);
+      if (event === 'PASSWORD_RECOVERY') setRecovering(true);
     });
     return () => {
       alive = false;
@@ -28,5 +33,6 @@ export function useAccount(): { user: User | null; ready: boolean } {
     };
   }, []);
 
-  return { user, ready };
+  const doneRecovering = useCallback(() => setRecovering(false), []);
+  return { user, ready, recovering, doneRecovering };
 }

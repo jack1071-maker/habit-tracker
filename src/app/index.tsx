@@ -3,7 +3,7 @@ import { ActivityIndicator, AppState as RNAppState, Pressable, StyleSheet, Text,
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Celebration } from '@/components/celebration';
-import { AuthScreen } from '@/components/screens/auth';
+import { AuthScreen, NewPasswordScreen } from '@/components/screens/auth';
 import { History } from '@/components/screens/history';
 import { Manage } from '@/components/screens/manage';
 import { Onboarding } from '@/components/screens/onboarding';
@@ -40,7 +40,7 @@ export default function App() {
   const [state, setState] = useState<AppState | null>(null);
   const [tab, setTab] = useState<Tab>('today');
   const [party, setParty] = useState<Party>(null);
-  const { user, ready: authReady } = useAccount();
+  const { user, ready: authReady, recovering, doneRecovering } = useAccount();
   const [sync, setSync] = useState<SyncStatus>('idle');
   /** Sign-in/sign-up screen opened from the Manage tab. */
   const [authView, setAuthView] = useState<null | 'signUp' | 'signIn'>(null);
@@ -253,6 +253,35 @@ export default function App() {
     setState(EMPTY_STATE);
   };
 
+  /** Permanently delete the signed-in account and everything saved in it. */
+  const deleteAccount = async (): Promise<string | null> => {
+    if (!supabase || !user) return 'You’re not signed in.';
+    // Stop any pending upload so it can't re-create the data after deleting.
+    if (pushTimer.current) {
+      clearTimeout(pushTimer.current);
+      pushTimer.current = null;
+    }
+    const { error } = await supabase.rpc('delete_my_account');
+    if (error) return 'Couldn’t delete your account. Check your internet connection and try again.';
+    // The account is gone on the server; now forget it on this device too.
+    await supabase.auth.signOut({ scope: 'local' });
+    await setSyncedAt(null);
+    skipNextPush.current = true;
+    setSync('idle');
+    setTab('today');
+    setState(EMPTY_STATE);
+    return null;
+  };
+
+  // Someone opened a password-reset link: let them choose a new password first.
+  if (recovering && user) {
+    return (
+      <SafeAreaView style={styles.screen}>
+        <NewPasswordScreen onDone={doneRecovering} />
+      </SafeAreaView>
+    );
+  }
+
   // Sign-in / sign-up opened from the Manage tab.
   if (authView && cloudEnabled) {
     return (
@@ -325,6 +354,7 @@ export default function App() {
               onSignUp: () => setAuthView('signUp'),
               onSignIn: () => setAuthView('signIn'),
               onSignOut: signOut,
+              onDeleteAccount: deleteAccount,
             }}
           />
         )}
