@@ -1,56 +1,80 @@
-# Welcome to your Expo app 👋
+# 🌳 Habit Tracker
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile habit tracker where **your streak grows a tree**. Finish every habit in a day and your tree grows a little bigger. Miss a day and a lumberjack shows up to chop it down. 🪓
 
-## Get started
+**[▶ Try the live demo](https://jack1071-habit-tracker.expo.app)** (works best at phone size)
 
-1. Install dependencies
+<p>
+  <img src="docs/screenshots/today.jpg" width="200" alt="Today screen with habits and progress" />
+  <img src="docs/screenshots/tree.jpg" width="200" alt="Your Tree screen showing a tree grown from a 10-day streak" />
+  <img src="docs/screenshots/lumberjack.jpg" width="200" alt="Lumberjack chopping down the tree after a missed day" />
+  <img src="docs/screenshots/history.jpg" width="200" alt="History screen with streaks and consistency bars" />
+</p>
 
+## Features
+
+- **Tap to log habits.** Once-a-day habits check off with one tap. Counted habits (like 8 glasses of water) fill up one tap at a time. Press and hold to remove one.
+- **Rewards on every tap.** Haptic buzz, a bounce animation, and emoji confetti when you finish the day.
+- **Your Tree.** A tree that grows through 8 stages as your streak gets longer, from a seed to a Mighty Oak at 30 days. Break the streak and a lumberjack walks in, chops it down, and you start again from a seed.
+- **3-day kickstart challenge** for new users, with a trophy at the end.
+- **History.** Current and best streaks, a 7-day grid, and 30-day consistency bars for each habit.
+- **Manage habits.** Add your own with a custom icon and daily target, or delete them.
+- **Saves on the device**, so your habits are still there when you reopen the app.
+
+## How it's designed
+
+I planned the app with a 5-step framework before building it:
+
+| Step | In this app |
+|---|---|
+| **Core function** | Track a habit |
+| **Core loop** (action → reward in under 30 seconds) | Tap a habit → buzz, bounce, confetti |
+| **Accessory features** (only what supports the loop) | History, streaks, consistency bars, counted habits |
+| **Surface area** (5–7 screens max) | 5 screens: Welcome, Today, Your Tree, History, Manage |
+| **Retention hook** | 3-day kickstart challenge, and a tree you don't want to lose |
+
+## Built with
+
+- [React Native](https://reactnative.dev) + [Expo](https://expo.dev) (SDK 58) and Expo Router
+- TypeScript
+- `react-native-svg` for the tree and lumberjack drawings
+- React Native `Animated` for the grow, chop and confetti animations
+- `expo-haptics` for vibration feedback
+- AsyncStorage for saving data on the device
+- Published with EAS Update (phone) and EAS Hosting (web)
+
+Built with [Claude Code](https://claude.com/claude-code) as an AI pair programmer while following a course on building mobile apps.
+
+## Run it yourself
+
+1. Install dependencies:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+2. Start the app:
    ```bash
    npx expo start
    ```
+3. Scan the QR code with the **Expo Go** app on your phone, or press `w` to open it in your browser.
 
-In the output, you'll find options to open the app in a
+If your phone can't connect over Wi-Fi, use `npx expo start --tunnel` instead.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Project structure
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+src/
+  app/
+    _layout.tsx         Loads the font and sets up the app
+    index.tsx           Main screen: app state, tabs, celebrations
+  components/
+    screens/            Onboarding, Today, Your Tree, History, Manage
+    tree-art.tsx        SVG drawings of the tree stages, stump and lumberjack
+    celebration.tsx     Confetti animation
+  lib/
+    habits.ts           Data types, saving, streak and consistency maths
+    ui.ts               Colors, fonts and haptics
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## License
 
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+MIT
